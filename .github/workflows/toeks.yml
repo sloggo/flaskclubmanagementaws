@@ -44,7 +44,7 @@ jobs:
           ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
           ECR_REPOSITORY: cloudcookrepo
         run: |
-          docker buildx build --platform linux/arm/v7 --push -t $ECR_REGISTRY/$ECR_REPOSITORY .
+          docker buildx build --platform linux/amd64 --push -t $ECR_REGISTRY/$ECR_REPOSITORY .
           echo "IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY" >> $GITHUB_ENV
 
       - name: Set up AWS CLI
