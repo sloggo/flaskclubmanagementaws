@@ -43,9 +43,10 @@ jobs:
         env:
           ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
           ECR_REPOSITORY: cloudcookrepo
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker buildx build --platform linux/amd64 --push -t $ECR_REGISTRY/$ECR_REPOSITORY .
-          echo "IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY" >> $GITHUB_ENV
+          docker buildx build --platform linux/amd64 --push -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          echo "IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
 
       - name: Set up AWS CLI
         run: |
@@ -71,6 +72,8 @@ jobs:
         env:
           ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
           AWS_REGION: ${{ secrets.AWS_REGION }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
           helm upgrade --install cloudcook ./helm/cloudcook \
-            --set image.repository=$ECR_REGISTRY/cloudcookrepo
+            --set image.repository=$ECR_REGISTRY/cloudcookrepo \
+            --set image.tag=$IMAGE_TAG
