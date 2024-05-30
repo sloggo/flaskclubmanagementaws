@@ -78,4 +78,3 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
           helm upgrade --install cloudcook ./helm/cloudcook \
-            --set image.repository=$IMAGE_URI
