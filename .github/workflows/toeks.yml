@@ -78,5 +78,5 @@ jobs:
           IMAGE_URI: ${{ env.IMAGE_URI }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          helm upgrade --install your-release-name ./helm-chart-directory \
+          helm upgrade --install cloudcook ./helm/mychart \
             --set image.repository=$IMAGE_URI
