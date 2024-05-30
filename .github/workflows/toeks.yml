@@ -47,7 +47,7 @@ jobs:
       - name: Build and push Docker image
         env:
           ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-          ECR_REPOSITORY: your-ecr-repository
+          ECR_REPOSITORY: cloudcookrepo
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker buildx build --platform linux/amd64 --push -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
