@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Home - {{ super() }}{% endblock %}
+
+{% block content %}
+<section>
+    <div class="container py-5">
+
+
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                class="rounded-circle img-fluid" style="width: 150px;">
+              <h5 class="my-3">{{ user_data.username }}</h5>
+              <p class="text-muted mb-1">{{ user_data.role}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Username</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ user_data.username }}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Email</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ user_data.email }}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Phone</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ user_data.mobile }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card mb-4 mb-md-0">
+                <div class="card-body" style="overflow: auto; height: 300px;">
+                  <p class="mb-4"><span class="text-primary font-italic me-1"></span> Your clubs
+                  </p>
+                  {% if club is not none %}
+                  {% for club in clubs %}
+                  <div class="card">
+                  <div class="card-body">
+                    <a class="card-title" href="{{url_for('explore')}}">{{club[1]}}</a>
+                    <p class="card-text">{{club[2]}}</p>
+
+                  </div>
+                </div>
+                  <br>
+                  {% endfor %}
+                  {% endif %}
+
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card mb-4 mb-md-0">
+                <div class="card-body" style="overflow: auto; height: 300px;">
+                  <p class="mb-4"><span class="text-primary font-italic me-1"></span>Your Events
+                  </p>
+                  {% if event is not none %}
+                  {% for event in events %}
+                  <div class="card">
+                  <div class="card-body">
+                    <a class="card-title" href="{{url_for('explore')}}">{{event[1]}}</a>
+                    <p class="card-text">{{event[2]}}</p>
+
+                  </div>
+                </div>
+                  <br>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+

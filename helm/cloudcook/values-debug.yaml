@@ -1,0 +1,12 @@
+replicaCount: 1
+
+image:
+  repository: 875594848195.dkr.ecr.us-east-1.amazonaws.com/cloudcookrepo
+  pullPolicy: Always
+  tag: "debug"
+
+service:
+  type: LoadBalancer
+  port: 80
+
+resources: {}

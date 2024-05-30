@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Home - {{ super() }}{% endblock %}
+
+{% block content %}
+    <h2>Create A Club</h2>
+    <p>Fill out the information below to create your own club.</p>
+
+    <form style="width: 22rem;" method="post" action="{{ url_for('createClub') }}">
+      <input type="hidden" name="coordinatorID" value="{{current_user.id}}"/>
+    <!-- Name input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <input type="text" id="form5Example1" class="form-control" name="clubName"/>
+      <label class="form-label" for="form5Example1">Club Name</label>
+    </div>
+
+    <!-- Email input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <input type="text" id="form5Example2" class="form-control" name="clubDesc"/>
+      <label class="form-label" for="form5Example2">Club Description</label>
+    </div>
+
+    <!-- Submit button -->
+    <input type="submit" data-mdb-ripple-init class="btn btn-primary btn-block mb-4" value="Create Club!"/>
+  </form>
+{% endblock %}

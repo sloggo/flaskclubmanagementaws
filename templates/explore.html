@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Home - {{ super() }}{% endblock %}
+
+{% block content %}
+    <style>
+        @keyframes fadeIn {
+            0%{opacity: 0; left: -50px;}
+            60%{opacity: 0;}
+            100%{opacity: 1; left: 0px;}
+        }
+
+        @keyframes fadeInCard {
+            from{opacity: 0; top: -75px;}
+            to{opacity: 1; top: 0px;}
+        }
+
+        .title{
+            position: relative;
+            animation: fadeIn .7s;
+        }
+
+        .card{
+            position: relative;
+            opacity: 0;
+            animation: fadeInCard .5s forwards .5s;
+        }
+    </style>
+
+    <h2 class="ml-4 mt-0 pt-0 title">Explore Clubs & Societies</h2>
+
+    <div class="d-flex w-100 justify-content-center pt-3 g-5 flex-wrap">
+        {% for club in club_data %}
+        <div class="card w-25 m-3">
+            <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp" class="card-img-top" alt="Fissure in Sandstone"/>
+            <div class="card-body test">
+              <h5 class="card-title">{{club[1]}}</h5>
+              <p class="card-text">{{club[2]}}</p>
+              <a href="/explore/{{club[0]}}" class="btn btn-primary" data-mdb-ripple-init>View Club</a>
+            </div>
+        </div>
+        {% endfor %}
+        
+    </div>
+{% endblock %}
+

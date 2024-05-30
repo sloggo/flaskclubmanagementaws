@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Home - {{ super() }}{% endblock %}
+
+{% block content %}
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+}
+
+.container-ab {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Ensure content does not overflow */
+    display: flex; /* Use flexbox layout */
+    align-items: center; /* Align items vertically */
+    flex-direction: column; /* Arrange items vertically */
+    justify-content: space-between; /* Space items evenly */
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    width: 150px; /* Adjust size as needed */
+}
+
+h2, h3, h4, h5 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.text {
+    width: calc(100% - 150px); /* Define the width of the text */
+    /* Height is auto to fit content */
+    text-align: left; /* Align text horizontally in the center */
+    margin-bottom: 20px; /* Add margin between text and logo */
+}
+
+.img-container {
+    width: 150px; /* Define the width of the image container */
+    text-align: center; /* Align image horizontally in the center */
+    width: 100%; /* Make the image fill the container */
+    border-radius: 50%; /* Make the image round */
+    margin-bottom: 10px; /* Add margin to separate images */
+    text-align: center;
+}
+
+.img-container img {
+    width: 300px; /* Make the image fill the container */
+    border-radius: 5%; /* Make the image round */
+    margin-bottom: 10px; /* Add margin to separate images */
+    text-align: center;
+}
+
+</style>
+
+<div class="container-ab">
+    <div class="logo">
+        <!-- School logo at the top -->
+        <img src="static/images/Long-UL-Logo.jpg" alt="University of Limerick Logo">
+    </div>
+    <div class="text">
+        <h2>About Us</h2>
+        <p>Welcome to ClubHub, the ultimate sports management system designed to revolutionize the way you experience sports at the University of Limerick. Developed in collaboration with UL Sport, ClubHub serves as the central hub for all your sporting activities, providing a seamless and efficient platform to enhance your sporting journey.</p>
+        <div class="img-container">
+            <!-- Add your first image here -->
+            <img src="static/images/image1.jpg" alt="Image 1">
+        </div>
+        <h3>Our Mission</h3>
+        <p>At ClubHub, our mission is to empower the University of Limerick community to embrace a vibrant and active lifestyle through sports. We are dedicated to fostering a culture of inclusivity, teamwork, and excellence, ensuring that every student, faculty member, and staff member has the opportunity to participate in and enjoy a wide range of sporting activities.</p>
+        <div class="img-container">
+            <!-- Add your second image here -->
+            <img src="static/images/image2.jpg" alt="Image 2">
+        </div>
+        <h4>What We Offer:</h4>
+        <p>
+            <strong>Streamlined Sports Management:</strong>
+            <ul>
+                <li>Say goodbye to the hassle of paperwork and administrative tasks. </li>
+                <li>ClubHub offers a user-friendly interface that simplifies sports management processes, from registration and scheduling to communication and event management.</li>
+            </ul>
+        </p>
+        <div class="img-container">
+            <!-- Add your third image here -->
+            <img src="static/images/image3.jpg" alt="Image 3">
+        </div>
+        <p>
+            <strong>Comprehensive Sports Directory:</strong>
+            <ul>
+                <li>Explore a diverse range of sports clubs and activities catered to all interests and skill levels.</li>
+                <li>Whether you're a seasoned athlete or a newcomer to the sporting world, ClubHub has something for everyone.</li>
+            </ul>
+        </p>
+        <div class="img-container">
+            <!-- Add your fourth image here -->
+            <img src="static/images/image4.jpg" alt="Image 4">
+        </div>
+        <p>
+            <strong>Community Engagement:</strong>
+            <ul>
+                <li>Connect with like-minded individuals who share your passion for sports.</li>
+                <li>ClubHub facilitates networking and collaboration within the University of Limerick sports community, fostering friendships and camaraderie both on and off the field.</li>
+            </ul>
+        </p>
+        <div class="img-container">
+            <!-- Add your fifth image here -->
+            <img src="static/images/image5.jpg" alt="Image 5">
+        </div>
+        <p>
+            <strong>Performance Tracking:</strong>
+            <ul>
+                <li>Monitor your progress and track your achievements with ClubHub's performance tracking features.</li>
+                <li>Set personal goals, record your stats, and celebrate your successes as you strive for excellence in your chosen sport.</li>
+            </ul>
+        </p>
+        <div class="img-container">
+            <!-- Add your sixth image here -->
+            <img src="static/images/image6.jpg" alt="Image 6">
+        </div>
+        <h5>Our Commitment</h5>    
+        <p>As part of UL Sport, ClubHub is committed to promoting health, wellness, and active living among the University of Limerick community. We are dedicated to providing exceptional service and support to all users, ensuring that your experience with ClubHub is nothing short of extraordinary.
+
+            Join us on the journey to a healthier, happier, and more active lifestyle. Discover the endless possibilities that await you with ClubHub – your gateway to the exciting world of sports at the University of Limerick.</p>
+    </div>
+    <div class="logo">
+        <!-- School logo at the bottom -->
+        <img src="static/images/Long-UL-Logo.jpg" alt="University of Limerick Logo">
+    </div>
+</div>
+{% endblock %}
