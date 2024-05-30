@@ -54,7 +54,7 @@ jobs:
           sudo ./aws/install --update
 
       - name: Set up Kubectl
-        uses: azure/setup-kubectl@v1
+        uses: azure/setup-kubectl@v3
         with:
           version: latest
 
@@ -69,8 +69,8 @@ jobs:
 
       - name: Deploy to EKS with Helm
         env:
-          IMAGE_URI: ${{ env.IMAGE_URI }}
+          ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
           helm upgrade --install cloudcook ./helm/cloudcook \
-            --set image.repository=$IMAGE_URI
+            --set image.repository=$ECR_REGISTRY/cloudcookrepo
