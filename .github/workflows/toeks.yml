@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: 3.9
 
@@ -24,7 +24,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v1
 
       - name: Configure AWS credentials
         run: |
@@ -37,12 +37,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
         with:
-          registry-type: private
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
+          registry: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
 
       - name: Build and push Docker image
         env:
@@ -59,16 +54,16 @@ jobs:
           sudo ./aws/install --update
 
       - name: Set up Kubectl
-        uses: azure/setup-kubectl@v3
+        uses: azure/setup-kubectl@v1
         with:
-          version: v1.21.0
+          version: latest
 
       - name: Set up Kubeconfig
         run: |
           aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
 
       - name: Set up Helm
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@v1
         with:
           version: v3.6.3
 
@@ -78,3 +73,4 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
           helm upgrade --install cloudcook ./helm/cloudcook \
+            --set image.repository=$IMAGE_URI
