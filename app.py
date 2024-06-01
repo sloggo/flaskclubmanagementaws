@@ -11,8 +11,39 @@ import events
 import static
 import updates, permissionpages
 
+
+class ClientError:
+    pass
+
+
+def get_secret():
+
+    secret_name = "db_key"
+    region_name = "us-east-1"
+
+    # Create a Secrets Manager client
+    session = boto3.session.Session()
+    client = session.client(
+        service_name='secretsmanager',
+        region_name=region_name
+    )
+
+    try:
+        get_secret_value_response = client.get_secret_value(
+            SecretId=secret_name
+        )
+    except ClientError as e:
+        raise e
+
+    return get_secret_value_response['SecretString']
+
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '1d8f6b8beff5'
+app.config['SECRET_KEY'] = get_secret()
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+app = Flask(__name__)
+app.config['SECRET_KEY'] = get_secret();
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
