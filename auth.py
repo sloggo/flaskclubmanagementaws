@@ -2,7 +2,6 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 import sqlite3 as db
 from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 import hashlib
-import app
 
 def calculate_sha256(input_data):
     sha256_hash = hashlib.sha256(input_data.encode()).hexdigest()
@@ -17,7 +16,7 @@ def loginDataProcess():
     username = request.form.get('loginName')
     password = request.form.get('loginPassword')
     hashedPass = calculate_sha256(password)
-    conn = db.connect(app.local_db_file)
+    conn = db.connect('/tmp/database.db')
 
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM Users WHERE Username = ? AND Password = ?', (username, hashedPass))
@@ -46,7 +45,7 @@ def registerDataProcess():
         flash('Invalid registration data. Please check your inputs.', 'error')
         return redirect(url_for('register'))
 
-    conn = db.connect(app.local_db_file)
+    conn = db.connect('/tmp/database.db')
 
     cursor = conn.cursor()
 
@@ -95,7 +94,7 @@ class USERDATA:
 
 @login_required
 def profile():
-    conn = db.connect(app.local_db_file)
+    conn = db.connect('/tmp/database.db')
 
     cursor = conn.cursor()
     cursor.execute('SELECT ClubID FROM ClubMemberships WHERE UserID = ?', (current_user.id,))
@@ -118,7 +117,7 @@ def profile():
 
 @login_required
 def retrieve_user_data(id):
-    conn = db.connect(app.local_db_file)
+    conn = db.connect('/tmp/database.db')
 
     cursor = conn.cursor()
     cursor.execute('SELECT Role FROM Users WHERE UserID = ?', (current_user.id,))

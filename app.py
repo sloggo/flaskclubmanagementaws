@@ -2,6 +2,7 @@
 from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import sqlite3 as db
+import json
 import boto3
 # flask --app app.py --debug run
 import hashlib
@@ -14,10 +15,15 @@ import updates, permissionpages
 
 class ClientError:
     pass
+import boto3
+from botocore.exceptions import ClientError
+from flask import Flask
 
+app = Flask(__name__)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
 
 def get_secret():
-
     secret_name = "db_key"
     region_name = "us-east-1"
 
@@ -32,20 +38,22 @@ def get_secret():
         get_secret_value_response = client.get_secret_value(
             SecretId=secret_name
         )
+        # Assuming your JSON string is stored in a variable called json_string
+        json_string = get_secret_value_response['SecretString']
+        # Parse the JSON string
+        data = json.loads(json_string)
+        # Access the SECRET_KEY directly from the dictionary
+        return data.get('SECRET_KEY')
     except ClientError as e:
+        error_code = e.response['Error']['Code']
+        if error_code == 'UnrecognizedClientException':
+            print("UnrecognizedClientException: The security token included in the request is invalid.")
+        else:
+            print(f"ClientError: {e}")
         raise e
 
-    return get_secret_value_response['SecretString']
-
-
-app = Flask(__name__)
+# Configure Flask app with the secret key
 app.config['SECRET_KEY'] = get_secret()
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
-app = Flask(__name__)
-app.config['SECRET_KEY'] = get_secret();
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
 
 def download_db_from_s3(bucket_name, file_key, local_file_path):
     s3 = boto3.client('s3')

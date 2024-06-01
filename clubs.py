@@ -2,7 +2,6 @@ import sqlite3 as db
 from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 import jinja2
 from flask_login import current_user
-import app
 
 def createClub():
     ownerID = request.form['coordinatorID']
@@ -10,7 +9,7 @@ def createClub():
     desc = request.form['clubDesc']
 
     # check if club exists under coordinator
-    conn = db.connect(app.local_db_file)
+    conn = db.connect('/tmp/database.db')
 
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM Clubs WHERE CoordinatorID = ?', (ownerID,))
@@ -30,7 +29,7 @@ def createClub():
 def joinClub():
     # check if user is a member of the club already
     clubid = request.form['club']
-    conn = db.connect(app.local_db_file)
+    conn = db.connect('/tmp/database.db')
 
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM ClubMemberships WHERE UserID = ?', (current_user.id,))
@@ -49,7 +48,7 @@ def joinClub():
     return redirect(url_for('profile'))
 
 def clubpage(id):
-    conn = db.connect(app.local_db_file)
+    conn = db.connect('/tmp/database.db')
 
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM Clubs WHERE clubid = ?', (id,))
@@ -60,7 +59,7 @@ def clubpage(id):
     return render_template('clubpage.html', club_data=club_data, owner_data=owner_data)
 
 def explore():
-    conn = db.connect(app.local_db_file)
+    conn = db.connect('/tmp/database.db')
 
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM Clubs')

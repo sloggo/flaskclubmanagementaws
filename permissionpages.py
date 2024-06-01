@@ -2,16 +2,15 @@ import sqlite3 as db
 from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 import jinja2
 from flask_login import current_user
-import app
 def myclub():
     if current_user is None:
         return render_template('/home.html',)
     else:
-        conn = db.connect(app.local_db_file)
+        conn = db.connect('/tmp/database.db')
 
         cursor = conn.cursor()
         # fetch role of current user
-        conn = db.connect(app.local_db_file)
+        conn = db.connect('/tmp/database.db')
 
         cursor = conn.cursor()
         cursor.execute('SELECT Role FROM Users WHERE UserID = ?', (current_user.id,))
@@ -55,7 +54,7 @@ def admin():
         return render_template('/home.html',)
     else:
         # fetch role of current user
-        conn = db.connect(app.local_db_file)
+        conn = db.connect('/tmp/database.db')
 
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM Users WHERE UserID = ?', (current_user.id,))

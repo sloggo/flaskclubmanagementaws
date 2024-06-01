@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify, url_for
 import sqlite3 as db
 from flask_login import current_user, login_required
-import app
 from werkzeug.utils import redirect
 
 app = Flask(__name__)
@@ -9,7 +8,7 @@ app = Flask(__name__)
 
 # Flask route to handle event registration
 def createEvent():
-    conn = db.connect(app.local_db_file)
+    conn = db.connect('/tmp/database.db')
 
     cursor = conn.cursor()
     cursor.execute('SELECT role FROM Users WHERE UserID=?', (current_user.id,))
@@ -35,7 +34,7 @@ def createEvent():
 @login_required
 def eventsPage():
     print(current_user.id)
-    conn = db.connect(app.local_db_file)
+    conn = db.connect('/tmp/database.db')
 
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM Events')
@@ -63,7 +62,7 @@ def joinEvent():
     userId = request.form['userId']
     eventId = request.form['eventId']
 
-    conn = db.connect(app.local_db_file)
+    conn = db.connect('/tmp/database.db')
 
     cursor = conn.cursor()
 
