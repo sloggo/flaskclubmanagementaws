@@ -11,6 +11,7 @@ import clubs
 import events
 import static
 import updates, permissionpages
+import os
 
 
 class ClientError:
@@ -27,7 +28,6 @@ def get_secret():
     secret_name = "db_key"
     region_name = "us-east-1"
 
-    # Create a Secrets Manager client
     session = boto3.session.Session()
     client = session.client(
         service_name='secretsmanager',
@@ -38,11 +38,8 @@ def get_secret():
         get_secret_value_response = client.get_secret_value(
             SecretId=secret_name
         )
-        # Assuming your JSON string is stored in a variable called json_string
         json_string = get_secret_value_response['SecretString']
-        # Parse the JSON string
         data = json.loads(json_string)
-        # Access the SECRET_KEY directly from the dictionary
         return data.get('SECRET_KEY')
     except ClientError as e:
         error_code = e.response['Error']['Code']
@@ -52,11 +49,10 @@ def get_secret():
             print(f"ClientError: {e}")
         raise e
 
-# Configure Flask app with the secret key
 app.config['SECRET_KEY'] = get_secret()
+s3 = boto3.client('s3')
 
 def download_db_from_s3(bucket_name, file_key, local_file_path):
-    s3 = boto3.client('s3')
     s3.download_file(bucket_name, file_key, local_file_path)
 
 # Fetch SQLite database file from S3
@@ -64,6 +60,20 @@ bucket_name = 'cloudcook'
 file_key = 'user_data.db'
 local_db_file = '/tmp/database.db'  # Local path to save the downloaded file
 download_db_from_s3(bucket_name, file_key, local_db_file)
+
+def download_s3_folder(bucket_name, s3_folder, local_dir=None):
+    s32 = boto3.resource('s3')
+    bucket = s32.Bucket(bucket_name)
+    for obj in bucket.objects.filter(Prefix=s3_folder):
+        target = obj.key if local_dir is None \
+            else os.path.join(local_dir, os.path.relpath(obj.key, s3_folder))
+        if not os.path.exists(os.path.dirname(target)):
+            os.makedirs(os.path.dirname(target))
+        if obj.key[-1] == '/':
+            continue
+        bucket.download_file(obj.key, target)
+
+download_s3_folder(bucket_name, "images", "./static/images")
 
 
 # Permission based pages
